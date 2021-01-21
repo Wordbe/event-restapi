@@ -1,4 +1,4 @@
-package co.wordbe.eventrestapi.event;
+package co.wordbe.eventrestapi.events;
 
 public enum EventStatus {
     DRAFT,
