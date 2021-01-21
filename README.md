@@ -1,2 +1,2 @@
-# event-restapi
-Springboot Porject - REST API,  Event
+# event-restapi :seeding:
+Springboot Porject - REST API,  Event 
