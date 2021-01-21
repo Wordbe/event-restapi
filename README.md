@@ -1,2 +1,2 @@
-# event-restapi :seeding:
+# event-restapi :seedling:
 Springboot Porject - REST API,  Event 
