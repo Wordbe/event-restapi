@@ -1,5 +1,6 @@
 package co.wordbe.eventrestapi.events;
 
+import co.wordbe.eventrestapi.common.TestDescription;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -31,6 +32,7 @@ public class EventControllerTest {
     ObjectMapper objectMapper;
 
     @Test
+    @TestDescription("이벤트 생성 정상 테스트")
     public void createEvent() throws Exception {
         EventDto event = EventDto.builder()
                 .name("Spring")
@@ -59,6 +61,7 @@ public class EventControllerTest {
     }
 
     @Test
+    @TestDescription("입력받을 수 없는 값을 사용하면 에러가 발생하는 이벤트 생성 테스트")
     public void createEvent_badRequest() throws Exception {
         Event event = Event.builder()
                 .id(100)
@@ -88,6 +91,7 @@ public class EventControllerTest {
     }
 
     @Test
+    @TestDescription("입력값이 비어있는 경우 에러가 발생하는 이벤트 생성 테스트")
     public void createEvent_badRequest_emptyInput() throws Exception {
         EventDto eventDto = EventDto.builder().build();
 
@@ -99,6 +103,7 @@ public class EventControllerTest {
     }
 
     @Test
+    @TestDescription("입력 값이 잘못된 경우 에러가 발생하는 이벤트 생성 테스트")
     public void createEvent_badRequest_wrongInput() throws Exception {
         EventDto eventDto = EventDto.builder()
                 .name("Spring")
