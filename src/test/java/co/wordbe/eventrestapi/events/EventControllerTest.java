@@ -57,6 +57,9 @@ public class EventControllerTest {
                 .andExpect(jsonPath("id").exists())
                 .andExpect(header().exists(HttpHeaders.LOCATION))
                 .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaTypes.HAL_JSON_VALUE + ";charset=UTF-8"))
+                .andExpect(jsonPath("free").value(false))
+                .andExpect(jsonPath("offline").value(true))
+                .andExpect(jsonPath("eventStatus").value(EventStatus.DRAFT.name()))
                 ;
     }
 
@@ -81,10 +84,10 @@ public class EventControllerTest {
                 .build();
 
         mockMvc.perform(post("/api/events")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaTypes.HAL_JSON)
-                .content(objectMapper.writeValueAsString(event))
-        )
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .accept(MediaTypes.HAL_JSON)
+                            .content(objectMapper.writeValueAsString(event))
+                        )
                 .andDo(print())
                 .andExpect(status().isBadRequest()) // 400 응답으로 예상
         ;
