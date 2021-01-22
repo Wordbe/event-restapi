@@ -1,5 +1,7 @@
 package co.wordbe.eventrestapi.config;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -17,5 +19,10 @@ public class SpringConfig implements WebMvcConfigurer {
                 .filter(converter -> converter instanceof MappingJackson2HttpMessageConverter)
                 .findFirst()
                 .ifPresent(converter -> ((MappingJackson2HttpMessageConverter) converter).setDefaultCharset(StandardCharsets.UTF_8));
+    }
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
     }
 }
