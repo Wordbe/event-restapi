@@ -1,6 +1,7 @@
 package co.wordbe.eventrestapi.events;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.hateoas.Link;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
@@ -47,6 +48,7 @@ public class EventController {
         EventResource eventResource = new EventResource(event);
         eventResource.add(selfLinkBuilder.withRel("update-event"));
         eventResource.add(linkTo(EventController.class).withRel("query-events"));
+        eventResource.add(new Link("/docs/index.html#resources-events-create").withRel("profile"));
 
         return ResponseEntity.created(createdUri).body(eventResource);
     }
