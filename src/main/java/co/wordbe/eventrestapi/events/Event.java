@@ -1,5 +1,6 @@
 package co.wordbe.eventrestapi.events;
 
+import co.wordbe.eventrestapi.accounts.Account;
 import lombok.*;
 
 import javax.persistence.*;
@@ -29,6 +30,9 @@ public class Event {
 
     @Enumerated(EnumType.STRING)
     private EventStatus eventStatus = EventStatus.DRAFT;
+
+    @ManyToOne
+    private Account manager;
 
     public void update() {
         // Update Free
