@@ -3,8 +3,9 @@ package co.wordbe.eventrestapi.config;
 import co.wordbe.eventrestapi.accounts.Account;
 import co.wordbe.eventrestapi.accounts.AccountRole;
 import co.wordbe.eventrestapi.accounts.AccountService;
+import co.wordbe.eventrestapi.common.AppProperties;
 import co.wordbe.eventrestapi.common.BaseControllerTest;
-import co.wordbe.eventrestapi.common.DisplayName;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -21,26 +22,20 @@ class AuthServerConfigTest extends BaseControllerTest {
     @Autowired
     AccountService accountService;
 
+    @Autowired
+    AppProperties appProperties;
+
     @Test
     @DisplayName("인증 토큰을 발급 받는 테스트")
     public void getAuthToken() throws Exception {
-        // Given
-        String username = "reddy@example.com";
-        String password = "4321";
-        Account reddy = Account.builder()
-                .email(username)
-                .password(password)
-                .roles(Set.of(AccountRole.ADMIN, AccountRole.USER))
-                .build();
-        this.accountService.saveAccount(reddy);
 
         // When
-        String clientId = "snow";
-        String clientSecret = "1234";
+        String clientId = appProperties.getClientId();
+        String clientSecret = appProperties.getClientSecret();
         this.mockMvc.perform(post("/oauth/token")
                 .with(httpBasic(clientId, clientSecret))
-                .param("username", username)
-                .param("password", password)
+                .param("username", appProperties.getUserUsername())
+                .param("password", appProperties.getUserPassword())
                 .param("grant_type", "password")
         )
         // Then

@@ -4,6 +4,7 @@ import co.wordbe.eventrestapi.accounts.Account;
 import co.wordbe.eventrestapi.accounts.AccountRepository;
 import co.wordbe.eventrestapi.accounts.AccountRole;
 import co.wordbe.eventrestapi.accounts.AccountService;
+import co.wordbe.eventrestapi.common.AppProperties;
 import co.wordbe.eventrestapi.common.BaseControllerTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -39,6 +40,9 @@ public class EventControllerTest extends BaseControllerTest {
 
     @Autowired
     AccountRepository accountRepository;
+
+    @Autowired
+    AppProperties appProperties;
 
     @BeforeEach
     public void setUp() {
@@ -136,8 +140,8 @@ public class EventControllerTest extends BaseControllerTest {
 
     private String getAccessToken() throws Exception {
         // Given
-        String username = "reddy@example.com";
-        String password = "4321";
+        String username = appProperties.getUserUsername();
+        String password = appProperties.getUserPassword();
         Account reddy = Account.builder()
                 .email(username)
                 .password(password)
@@ -146,8 +150,8 @@ public class EventControllerTest extends BaseControllerTest {
         this.accountService.saveAccount(reddy);
 
         // When
-        String clientId = "snow";
-        String clientSecret = "1234";
+        String clientId = appProperties.getClientId();
+        String clientSecret = appProperties.getClientSecret();
         ResultActions perform = this.mockMvc.perform(post("/oauth/token")
                 .with(httpBasic(clientId, clientSecret))
                 .param("username", username)

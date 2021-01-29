@@ -3,6 +3,7 @@ package co.wordbe.eventrestapi.config;
 import co.wordbe.eventrestapi.accounts.Account;
 import co.wordbe.eventrestapi.accounts.AccountRole;
 import co.wordbe.eventrestapi.accounts.AccountService;
+import co.wordbe.eventrestapi.common.AppProperties;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -20,7 +21,7 @@ import java.util.List;
 import java.util.Set;
 
 @Configuration
-public class SpringConfig implements WebMvcConfigurer {
+public class AppConfig implements WebMvcConfigurer {
 
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
@@ -47,14 +48,24 @@ public class SpringConfig implements WebMvcConfigurer {
             @Autowired
             AccountService accountService;
 
+            @Autowired
+            AppProperties appProperties;
+
             @Override
             public void run(ApplicationArguments args) throws Exception {
-                Account woody = Account.builder()
-                        .email("woody@example.com")
-                        .password("1234")
+                Account admin = Account.builder()
+                        .email(appProperties.getAdminUsername())
+                        .password(appProperties.getAdminPassword())
                         .roles(Set.of(AccountRole.ADMIN, AccountRole.USER))
                         .build();
-                accountService.saveAccount(woody);
+                accountService.saveAccount(admin);
+
+                Account user = Account.builder()
+                        .email(appProperties.getUserUsername())
+                        .password(appProperties.getUserPassword())
+                        .roles(Set.of(AccountRole.USER))
+                        .build();
+                accountService.saveAccount(user);
             }
         };
     }
