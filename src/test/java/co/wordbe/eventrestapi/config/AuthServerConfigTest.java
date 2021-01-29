@@ -34,10 +34,9 @@ class AuthServerConfigTest extends BaseControllerTest {
                 .build();
         this.accountService.saveAccount(reddy);
 
+        // When
         String clientId = "snow";
         String clientSecret = "1234";
-
-        // When
         this.mockMvc.perform(post("/oauth/token")
                 .with(httpBasic(clientId, clientSecret))
                 .param("username", username)
